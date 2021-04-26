@@ -46,6 +46,7 @@ services:
       - "5000:5000/udp"
       - "9600:9600"
       - "4560:4560/tcp"
+      - "4560:4560/udp"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
