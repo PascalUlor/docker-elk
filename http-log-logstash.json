@@ -1,0 +1,36 @@
+{ 
+    "template" : "http-log-logstash", 
+    "settings" : { "index.refresh_interval" : "60s" }, 
+    "mappings" : { 
+        "_default_" : { 
+            "_all" : { "enabled" : false }, 
+            "dynamic_templates" : [{ 
+              "message_field" : { 
+                "match" : "message", 
+                "match_mapping_type" : "string", 
+                "mapping" : { "type" : "string", "index" : "not_analyzed" } 
+              } 
+            }, { 
+              "string_fields" : { 
+                "match" : "*", 
+                "match_mapping_type" : "string", 
+                "mapping" : { "type" : "string", "index" : "not_analyzed" } 
+              } 
+            }], 
+            "properties" : { 
+                "@timestamp" : { "type" : "date", "format" : "dateOptionalTime" }, 
+                "@version" : { "type" : "integer", "index" : "not_analyzed" }, 
+                "agent" : { "type" : "string", "index" : "not_analyzed" }, 
+                "bytes" : { "type" : "long", "norms" : { "enabled" : false } }, 
+				"host" : { "type" : "string", "index" : "not_analyzed" }, 
+                "clientip" : { "type" : "ip", "norms" : { "enabled" : false } }, 
+                "httpversion" : { "type" : "float" }, 
+                "referrer" : { "type" : "string", "index" : "not_analyzed" }, 
+                "request" : { "type" : "string", "index" : "not_analyzed", "include_in_all": false }, 
+                "response" : { "type" : "integer", "index" : "not_analyzed" }, 
+                "geoip" : { "type" : "object", "dynamic" : true, "path" : "full", "properties" : { "location" : { "type" : "geo_point" } } }, 
+                "verb" : { "type" : "string", "norms" : { "enabled" : false } } 
+            } 
+        } 
+    } 
+}
